@@ -17,7 +17,8 @@ exports.postAddProduct = (req, res, next) => {
     title: title,
     price: price,
     description: description,
-    imageUrl: imageUrl
+    imageUrl: imageUrl,
+    userId: req.user
   });
   product
     .save()
@@ -76,7 +77,12 @@ exports.postEditProduct = (req, res, next) => {
 exports.getProducts = (req, res, next) => {
   //find is also a method provided by mongoose
   Product.find()
+  // we can retreive the specific data we want in this case only title and price is getting called and not the id 
+    // .select('title price -_id')
+    // we can populate the data by mentioning the userId and from the userId we can retrieve the users detail if we not specify the name then it will retrieve all the info of the users
+    // .populate('userId', 'name')
     .then(products => {
+      console.log(products)
       res.render('admin/products', {
         prods: products,
         pageTitle: 'Admin Products',
